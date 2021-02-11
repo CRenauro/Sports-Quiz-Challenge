@@ -1,87 +1,190 @@
-//5 Multiple Choice Questions:
-var questionOne = [
-    {
-        title: "In what state is the Churchill Downs horse track located?",
-        choices: ["Ohio", "Kentucky", "Virginia", "Pennsylvania"],
-        answer: "Kentucky"
-        
-    }
-]
-var questionTwo = [
-    {
-        title: "What was the original Yankee stadium called?",
-        choices: ["Heritage Field", "Polo Grounds", "Meadowlands", "Gotham Field"],
-        answer: "Heritage Field"
-    }
-]
-var questionThree = [
-    {
-        title: "What state did the baseball franchise, the San Franciso Giants, move from?",
-        choices: ["Nevada", "New York", "New Jersey", "Connecticut"],
-        answer: "New York"
-    }
-]
-var questionFour = [
-    {
-        title: "In what year was the NY Giants football team established?",
-        choices: ["1920", "1960", "1925", "1953"],
-        answer: "1925"
-    }
-]
-var questionFive = [
-    {
-        title: "How many Stanley Cups have the New Jersey Devils hockey team won?",
-        choices: ["0", "5", "2", "3"],
-        answer: "3"
-    }
-]
-
-//Goes to page 2
-var mainEl = document.getElementById("start");
-document.getElementById("start").onclick = function () { 
-    location.href = "page2.html";
-};
-
-//page 2
-var startButton = document.getElementById('start-btn')
-startButton.addEventListener('click', startQuiz)
-
-//tried adding timer, but was running out of time
-
-var container = document.getElementById('container')
-var nextQuestion = document.getElementById('question')
-var getAnswer = document.getElementById('answer') //add buttons?
-
-// var shuffleQuestions, currentQuestionIndex
-
-function startQuiz() {
-    console.log('started')
-    shuffleQuestions = questions.sort(() => Math.random() - .5)
-    questionIndex = 0
-    nextQuestion()
-
-}
-
-function nextQuestion() {
-    showQuestion(shuffleQuestions[currentQuestionIndex])
-    questionElement.innerText = question.question
-    question.answers.forEach(answer => {
-        var button = document.createElement('button')
-        button.innerText = answer.innerText
-        if (answer.correct) {
-            button.dataset.correct = answer.correct
+(function(){
+    function buildQuiz(){
+      // variable to store the HTML output
+      var output = [];
+  
+      // for each question...
+      myQuestions.forEach(
+        (currentQuestion, questionNumber) => {
+  
+          // variable to store the list of possible answers
+          var answers = [];
+  
+          // and for each available answer...
+          for(letter in currentQuestion.answers){
+  
+            //radio button
+            answers.push(
+              `<label>
+                <input type="radio" name="question${questionNumber}" value="${letter}">
+                ${letter} :
+                ${currentQuestion.answers[letter]}
+              </label>`
+            );
+          }
+  
+          // add this question and its answers to the output
+          output.push(
+            `<div class="slide">
+              <div class="question"> ${currentQuestion.question} </div>
+              <div class="answers"> ${answers.join("")} </div>
+            </div>`
+          );
         }
-        button.addEventListener('click', selectAnswer)
-        answerButtonsElement.appendChild(button)
+      );
+  
+      //combine output list into one string
+      quizContainer.innerHTML = output.join('');
     }
-}
+  
+    function showResults(){
+  
+      // get answer 
+      const answerContainers = quizContainer.querySelectorAll('.answers');
+  
+      // keep track of answers
+      let numCorrect = 0;
+  
+      // for each question...
+      myQuestions.forEach( (currentQuestion, questionNumber) => {
+  
+        // find selected answer
+        const answerContainer = answerContainers[questionNumber];
+        const selector = `input[name=question${questionNumber}]:checked`;
+        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+  
+        // if answer is correct
+        if(userAnswer === currentQuestion.correctAnswer){
+          // add to the number of correct answers
+          numCorrect++;
+  
+          // color the answers green
+          answerContainers[questionNumber].style.color = 'lightgreen';
+        }
+        // if answer is wrong or blank
+        else{
+          // color the answers red
+          answerContainers[questionNumber].style.color = 'red';
+        }
+      });
+  
+      // show number of correct answers out of total
+      resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+    }
+  
+    function showSlide(n) {
+      slides[currentSlide].classList.remove('active-slide');
+      slides[n].classList.add('active-slide');
+      currentSlide = n;
+      if(currentSlide === 0){
+        previousButton.style.display = 'none';
+      }
+      else{
+        previousButton.style.display = 'inline-block';
+      }
+      if(currentSlide === slides.length-1){
+        nextButton.style.display = 'none';
+        submitButton.style.display = 'inline-block';
+      }
+      else{
+        nextButton.style.display = 'inline-block';
+        submitButton.style.display = 'none';
+      }
+    }
+  
+    function showNextSlide() {
+      showSlide(currentSlide + 1);
+    }
+  
+    function showPreviousSlide() {
+      showSlide(currentSlide - 1);
+    }
 
-function reset() {
-    nextButton.classList.add('hide')
-    while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild
-        (answerButtonsElement.firstChild)
+    var countDownTime = 30;
+	function countDownTimer() {
+		var seconds = countDownTime % 30;
+		var result = (seconds  < 10 ? "0" + seconds : seconds);
+		document.getElementById("timer").innerHTML = result;
+   		if(countDownTime == 0 ){ countDownTime = 30*30*30; }
+   		countDownTime = countDownTime - 1;
+   		setTimeout(function(){ countDownTimer() }, 1000);
+	}
+	countDownTimer();
+
+    
+var quizContainer = document.getElementById('quiz');
+var resultsContainer = document.getElementById('results');
+var submitButton = document.getElementById('submit');
+var myQuestions = [
+    {  
+        question: "In what state is the Churchill Downs horse track located?",
+        answers: {
+            a:"Ohio", 
+            b:"Kentucky", 
+            c:"Virginia", 
+            d:"Pennsylvania"
+        },
+        correctAnswer: "b"         
+    },
+
+    {     
+        question: "What was the original Yankee stadium called?",
+        answers: {
+            a:"Heritage Field",
+            b:"Polo Grounds",
+            c:"Meadowlands",
+            d:"Gotham Field" 
+        },
+        correctAnswer: "a" 
+    },
+
+    {  
+        question: "What state did the baseball franchise, the San Franciso Giants, move from?",
+        answers: {
+            a:"Nevada",
+            b:"New York",
+            c:"New Jersey",
+            d:"Connecticut"
+        },
+        correctAnswer: "b" 
+    },
+
+    {  
+        question: "In what year was the NY Giants football team established?",
+        answers: {
+            a:"1920",
+            b:"1960",
+            c:"1925",
+            d:"1953"
+        },
+        correctanswer: "c"
+        
+    },
+
+    {  
+        question: "How many Stanley Cups have the New Jersey Devils hockey team won?",
+        answers: {
+            a:"0",
+            b:"5",
+            c:"2",
+            d:"3", 
+        },
+        correctanswer: "d"
+            
     }
-}
-function getAnswer(){
-}
+];
+
+buildQuiz();
+
+var previousButton = document.getElementById("previous");
+var nextButton = document.getElementById("next");
+var slides = document.querySelectorAll(".slide");
+var currentSlide = 0;
+
+showSlide(currentSlide);
+
+submitButton.addEventListener('click', showResults);
+previousButton.addEventListener("click", showPreviousSlide);
+nextButton.addEventListener("click", showNextSlide);
+
+})();
