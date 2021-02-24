@@ -1,190 +1,116 @@
-(function(){
-    function buildQuiz(){
-      // variable to store the HTML output
-      var output = [];
-  
-      // for each question...
-      myQuestions.forEach(
-        (currentQuestion, questionNumber) => {
-  
-          // variable to store the list of possible answers
-          var answers = [];
-  
-          // and for each available answer...
-          for(letter in currentQuestion.answers){
-  
-            //radio button
-            answers.push(
-              `<label>
-                <input type="radio" name="question${questionNumber}" value="${letter}">
-                ${letter} :
-                ${currentQuestion.answers[letter]}
-              </label>`
-            );
-          }
-  
-          // add this question and its answers to the output
-          output.push(
-            `<div class="slide">
-              <div class="question"> ${currentQuestion.question} </div>
-              <div class="answers"> ${answers.join("")} </div>
-            </div>`
-          );
-        }
-      );
-  
-      //combine output list into one string
-      quizContainer.innerHTML = output.join('');
-    }
-  
-    function showResults(){
-  
-      // get answer 
-      const answerContainers = quizContainer.querySelectorAll('.answers');
-  
-      // keep track of answers
-      let numCorrect = 0;
-  
-      // for each question...
-      myQuestions.forEach( (currentQuestion, questionNumber) => {
-  
-        // find selected answer
-        const answerContainer = answerContainers[questionNumber];
-        const selector = `input[name=question${questionNumber}]:checked`;
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-  
-        // if answer is correct
-        if(userAnswer === currentQuestion.correctAnswer){
-          // add to the number of correct answers
-          numCorrect++;
-  
-          // color the answers green
-          answerContainers[questionNumber].style.color = 'lightgreen';
-        }
-        // if answer is wrong or blank
-        else{
-          // color the answers red
-          answerContainers[questionNumber].style.color = 'red';
-        }
-      });
-  
-      // show number of correct answers out of total
-      resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
-    }
-  
-    function showSlide(n) {
-      slides[currentSlide].classList.remove('active-slide');
-      slides[n].classList.add('active-slide');
-      currentSlide = n;
-      if(currentSlide === 0){
-        previousButton.style.display = 'none';
-      }
-      else{
-        previousButton.style.display = 'inline-block';
-      }
-      if(currentSlide === slides.length-1){
-        nextButton.style.display = 'none';
-        submitButton.style.display = 'inline-block';
-      }
-      else{
-        nextButton.style.display = 'inline-block';
-        submitButton.style.display = 'none';
-      }
-    }
-  
-    function showNextSlide() {
-      showSlide(currentSlide + 1);
-    }
-  
-    function showPreviousSlide() {
-      showSlide(currentSlide - 1);
-    }
+ //variables for application state
+ 
+var currentQuestionIndex = 0;
+// var time = questionObjArr.length * 15; not sure what this does
+var timerId;
 
-    var countDownTime = 30;
-	function countDownTimer() {
-		var seconds = countDownTime % 30;
-		var result = (seconds  < 10 ? "0" + seconds : seconds);
-		document.getElementById("timer").innerHTML = result;
-   		if(countDownTime == 0 ){ countDownTime = 30*30*30; }
-   		countDownTime = countDownTime - 1;
-   		setTimeout(function(){ countDownTimer() }, 1000);
-	}
-	countDownTimer();
 
+// Variables to reference DOM elements using document.getElementById()
+var timeEl = document.getElementById(time);
+var startBtn = document.getElementById(start-button);
+var submit = document.getElementById(submit-button);
+var questions = document.getElementById(title-section);
+var submit = document.getElementById(quiz-section);
+var choices = document.getElementById(high-score);
+var submit = document.getElementById(highscore-display);
+var timer = document.getElementById(initials);
+var submit = document.getElementById(feedback);
+
+var start = document.getElementById(question);
+var feedback = document.getElementById(choices);
+
+var questions = [
+  {  
+    question: "In what state is the Churchill Downs horse track located?",
+    choices: {
+        a:"Ohio", 
+        b:"Kentucky", 
+        c:"Virginia", 
+        d:"Pennsylvania"
+    },
+    answer: "b"         
+},
+
+{     
+    question: "What was the original Yankee stadium called?",
+    choices: {
+        a:"Heritage Field",
+        b:"Polo Grounds",
+        c:"Meadowlands",
+        d:"Gotham Field" 
+    },
+    answer: "a" 
+},
+
+{  
+    question: "What state did the baseball franchise, the San Franciso Giants, move from?",
+    choices: {
+        a:"Nevada",
+        b:"New York",
+        c:"New Jersey",
+        d:"Connecticut"
+    },
+    answer: "b" 
+},
+
+{  
+    question: "In what year was the NY Giants football team established?",
+    choices: {
+        a:"1920",
+        b:"1960",
+        c:"1925",
+        d:"1953"
+    },
+    answer: "c"
     
-var quizContainer = document.getElementById('quiz');
-var resultsContainer = document.getElementById('results');
-var submitButton = document.getElementById('submit');
-var myQuestions = [
-    {  
-        question: "In what state is the Churchill Downs horse track located?",
-        answers: {
-            a:"Ohio", 
-            b:"Kentucky", 
-            c:"Virginia", 
-            d:"Pennsylvania"
-        },
-        correctAnswer: "b"         
-    },
+},
 
-    {     
-        question: "What was the original Yankee stadium called?",
-        answers: {
-            a:"Heritage Field",
-            b:"Polo Grounds",
-            c:"Meadowlands",
-            d:"Gotham Field" 
-        },
-        correctAnswer: "a" 
+{  
+    question: "How many Stanley Cups have the New Jersey Devils hockey team won?",
+    choices: {
+        a:"0",
+        b:"5",
+        c:"2",
+        d:"3", 
     },
-
-    {  
-        question: "What state did the baseball franchise, the San Franciso Giants, move from?",
-        answers: {
-            a:"Nevada",
-            b:"New York",
-            c:"New Jersey",
-            d:"Connecticut"
-        },
-        correctAnswer: "b" 
-    },
-
-    {  
-        question: "In what year was the NY Giants football team established?",
-        answers: {
-            a:"1920",
-            b:"1960",
-            c:"1925",
-            d:"1953"
-        },
-        correctanswer: "c"
+    answer: "d"
         
-    },
+  }
 
-    {  
-        question: "How many Stanley Cups have the New Jersey Devils hockey team won?",
-        answers: {
-            a:"0",
-            b:"5",
-            c:"2",
-            d:"3", 
-        },
-        correctanswer: "d"
-            
-    }
 ];
 
-buildQuiz();
+function startQuiz() {
+  titleScreen.setAttributes("class", "hide");
+  quizScreen.setAttributes("class", "show");
+  timerId = setInterval(tick, 1000);
+  timeEl.textContent = time;
+  getQuestion();
+};
 
-var previousButton = document.getElementById("previous");
-var nextButton = document.getElementById("next");
-var slides = document.querySelectorAll(".slide");
-var currentSlide = 0;
+function startTimer() {
+    timerId = setInterval(updateTime, 1000);
+};
 
-showSlide(currentSlide);
+function updateTime() {
+    // decrement time
+    time--;
 
-submitButton.addEventListener('click', showResults);
-previousButton.addEventListener("click", showPreviousSlide);
-nextButton.addEventListener("click", showNextSlide);
+    // display time to web page with timer DOM element textContent
+    timerEl.textContent = time;
+  
+    // check if user ran out of time (time <= 0)
+    // call quizEnd function if true
+    if (time <= 0) {
+      quizEnd();
+    }
+  };
 
-})();
+/// need to add get question function, need to add function question click, 
+/// need to add right or wrong?
+/// need to add current question index
+/// need to check if we ran out of questions
+/// end quiz
+/// save high score
+///check for enter event needed?
+
+ // need to add event listeners//

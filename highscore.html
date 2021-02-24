@@ -7,25 +7,25 @@
 <meta name="Description" content="Enter your description here"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-<link rel="stylesheet" href="./assets/style.css">
-<title>Quiz</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<title>High Score</title>
 </head>
 <body>
-    <h1>Sports Quiz</h1>
-    <h2 style="font-size: 1em;">Timer:  <span id="timer"></span></h2>
-<div class="quiz-container">
-  <div id="quiz"></div>
-</div>
-<button id="previous">Previous Question</button>
-<button id="next">Next Question</button>
-<button id="submit">Submit Quiz</button>
-<div id="results"></div>
+  <section id="highscore-display">
+    <div class="row">
+      <div class="col-md-12" id="posts">
+        <h2>High Scores</h2>
+        <ol id="highscores"></ol>
+        <a href="index.html"><button id="return-btn">Play Again</button></a>
+        <button id="clear-btn">Clear Highscores</button>
+      </div>
+    </div>
+  </section>
 
-<body>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-<script src="./assets/questions.js"></script>
-<script src="./assets/script.js"></script>
 </body>
 </html>
