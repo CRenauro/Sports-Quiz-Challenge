@@ -1,12 +1,12 @@
  //variables for application state
  
 var currentQuestionIndex = 0;
-// var time = questionObjArr.length * 15; not sure what this does
+var time = questionObjArr.length * 15; 
 var timerId;
 
 
 // Variables to reference DOM elements using document.getElementById()
-var timeEl = document.getElementById(time);
+var timeEl = document.getElementById(timer);
 var startBtn = document.getElementById(start-button);
 var submit = document.getElementById(submit-button);
 var questions = document.getElementById(title-section);
@@ -16,7 +16,7 @@ var submit = document.getElementById(highscore-display);
 var timer = document.getElementById(initials);
 var submit = document.getElementById(feedback);
 
-var start = document.getElementById(question);
+var start = document.getElementById(questions);
 var feedback = document.getElementById(choices);
 
 var questions = [
@@ -103,7 +103,12 @@ function updateTime() {
     if (time <= 0) {
       quizEnd();
     }
-  };
+};
+
+function getQuestion() {
+
+}
+
 
 /// need to add get question function, need to add function question click, 
 /// need to add right or wrong?
@@ -114,3 +119,11 @@ function updateTime() {
 ///check for enter event needed?
 
  // need to add event listeners//
+// user clicks buttion to start quiz
+
+// user clicks button to submit initials
+
+// user clicks button to answer choice
+
+ document.getElementById("start-button").addEventListener("click", startQuiz);
+
