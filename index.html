@@ -13,64 +13,90 @@
 </head>
 
 <body>
-    
-    <header class="row">
-        <div class="col-md-6" id="Highscores">
-            <a href="highscore.html">View Highscores</a>
+
+    <header class="container-fluid mb-5">
+        <!-- //scores link and time// -->
+        <div class="row">
+            <!-- //highscores// -->
+            <div class="col-6">
+                <button id="view-scores" type="button" class="btn btn-secondary d-flex justify-content-start mt-1"> View High Scores</button>
+            </div>
+                
+            <!-- //timer// -->
+            <div class="col-6">
+                <p class="d-flex justify-content-end time">Time:60s</p>
+            </div>
         </div>
-        
-        <div class="col-md-6" id="timer">
-            timer: <span id="time">0</span>
+    </header> 
+
+    <main>
+        <div class="container">
+            <!-- //h1, intro, hide// -->
+            <section id="intro">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <h1 class="d-flex justify-content-center text-center">Sports Quiz Challenge</h1>
+                        <p class="d-flex justify-content-center text-center">Try to answer the following sports related questions within the time limit. Incorrect answers will decrease your time by ten seconds.</p>
+                        <button id="start" type="button" class="btn btn-success mx-auto d-block">Start Quiz</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- //q and a section show upon start// -->
+
+            <section id="questions">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <h2 id="question">I'm a question</h2>
+                        <ul class="list-group">
+                            <li class= "mb-3"><button id=answer1 value="0" type="button"
+                                    class="btn btn-success ansBtn">Answer1</button></li>
+                            <li class= "mb-3"><button id=answer2 value="1" type="button"
+                                    class="btn btn-success ansBtn">Answer2</button></li>
+                            <li class= "mb-3"><button id=answer1 value="2" type="button"
+                                    class="btn btn-success ansBtn">Answer3</button></li>
+                            <li class= "mb-3"><button id=answer1 value="3" type="button"
+                                    class="btn btn-success ansBtn">Answer4</button></li>
+                        </ul>
+                        <div id="rightorwrong" class="font-italic">
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- //score and initials// -->
+            <section id="final">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <h2>Done!</h2>
+                        <p> Your final score: <span id="score" class="p1-1">0</span></p>
+                        <p>Enter initials: <span class="m1-1"><input placeholder="initials" id="initials" /></span>
+                            <button id="submit-score" class="btn btn-success mx-1 my-1 d-inline-block">Submit</button>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="highscores">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <h2>High Scores</h2>
+                        <ol id="score-list">
+                            <!-- //li// -->
+                        </ol>
+                        <button id="return" class="btn btn-success d-inline-block mx-1 my-1">Return</button>
+                        <button id="clearscores" class="btn btn-success d-inline-block mx-1 my-1">Clear Scores</button>
+                    </div>
+                </div>
+            </section>
         </div>
-    </header>
-
-    <div class="container">
-
-        <section id="title-section" class="show">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>Sports Quiz Challenge</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p>Try to answer the following sports related questions within the time limit.</p>
-                    <p>Incorrect answers will decrease your score time by ten seconds.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <button id="start-button">Start</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="quiz-section" class="hide">
-            <div class="row">
-                <div class="col-md-12" id="questions">
-                    <h3 id="question-title"></h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12" id="choices"></div>
-                <div id="feedback" class="feedback hide"></div>
-            </div>
-        </section>
-
-        <section id="high-score" class="hide">
-            <div class="row">
-                <div id="high-score" class="col-md-12">
-                    <h2>Done!</h2>
-                    <h3>Your score is: <span id="final-score">0</span></h3>
-                    <label for="initials-area">Enter Initials:</label>
-                    <input type="text" name="initials-area" maxlength="2" id="initials">
-                    <button id="submit-button" type="submit">Submit</button>
-                </div>
-            </div>
-        </section>
-
-    </div>
-</body>
+    </main>
     
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>

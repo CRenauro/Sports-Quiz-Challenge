@@ -9,4 +9,3 @@ It is built with HTML, Bootstrap CSS, and Javascript
 
 ## Credits
 
-A few online tutorials.
