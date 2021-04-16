@@ -3,3 +3,8 @@ body, html {
   background-position: no-repeat;
   background-size: cover;
 }
+
+#questions, #final, #highscores {
+  display: none;
+  
+}

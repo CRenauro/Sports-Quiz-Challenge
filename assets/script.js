@@ -60,7 +60,7 @@ const questions = [
     {  
         question: "How many Stanley Cups have the New Jersey Devils hockey team won?",
         answers: ["1. 0", "2. 5", "3. 2", "4. 3"],
-        correctAnswer: "3"    
+        correctAnswer: "4"    
     }
 ];
 
@@ -112,6 +112,9 @@ function checkAnswer(event) {
 
     }, 1000);
 
+    console.log(`questions[questionCount].correctAnswer: ${questions[questionCount].correctAnswer}`);
+    console.log(`event.target.value: ${event.target.value}`);
+
     if (questions[questionCount].correctAnswer === event.target.value) {
         p.textContent = "Correct";
     } else if (questions[questionCount].correctAnswer !== event.target.value) {
@@ -133,7 +136,7 @@ function addScore(event) {
     highscoresEl.style.display = "block";
 
     var init = enterInitials.value.toUpperCase();
-    scoreList.push({ initals, init, score: secondsLeft });
+    scoreList.push({ initials: init, score: secondsLeft });
 
     scoreList = scoreList.sort((a, b) => {
         if (a.score < b.score) {
@@ -162,22 +165,23 @@ function storeScores() {
 
 
 function displayScores() {
-    var storedScore = JSON.parse(localStorage.getItem("scoreList"));
+    var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
 
-    if (storedScore !== null) {
-        scoreList = storedScore;
+    if (storedScoreList !== null) {
+        scoreList = storedScoreList;
     }
 }
 
 function clearScores() {
     localStorage.clear();
-    scoreListEl,innerHTML="";
+    scoreListEl.innerHTML="";
 
 }
 
 startBtn.addEventListener("click", startQuiz);
+
 ansBtn.forEach(item => {
-    item.addEventListener('click', checkAnswer);
+    item.addEventListener("click", checkAnswer);
 });
 
 submitScrBtn.addEventListener("click", addScore);
