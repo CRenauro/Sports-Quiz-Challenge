@@ -136,8 +136,9 @@ function addScore(event) {
     highscoresEl.style.display = "block";
 
     var init = enterInitials.value.toUpperCase();
+    console.log(`init: ${init}`)
     scoreList.push({ initials: init, score: secondsLeft });
-
+    console.log(scoreList);
     scoreList = scoreList.sort((a, b) => {
         if (a.score < b.score) {
             return 1;
@@ -149,9 +150,10 @@ function addScore(event) {
 
 
     scoreListEl.innerHTML="";
+    console.log(scoreList);
     for (let i = 0; i < scoreList.length; i++) {
         let li = document.createElement("li");
-        li.textContent = `${scoreList[i].initals}: ${scoreList[i].score}`;
+        li.textContent = `${scoreList[i].initials}: ${scoreList[i].score}`;
         scoreListEl.append(li); 
     }
 
@@ -166,6 +168,7 @@ function storeScores() {
 
 function displayScores() {
     var storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
+    console.log(storedScoreList);
 
     if (storedScoreList !== null) {
         scoreList = storedScoreList;
